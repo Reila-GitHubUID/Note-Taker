@@ -21,18 +21,33 @@ const PORT = process.env.PORT || 2109;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ================================================================================
-// ROUTER
-// The below points our server to a series of "route" files.
-// These routes give our server a "map" of how to respond when users visit or request data from various URLs.
-// ================================================================================
 
-require("./routes/apiRoutes")(app);
-require("./routes/htmlRoutes")(app);
+
+// ===============================================================================
+// DEPENDENCIES
+// We need to include the path package to get the correct file path for our html
+// ===============================================================================
+const path = require('path');
+
+
+// ===============================================================================
+// ROUTING
+// ===============================================================================
+
+// HTML GET Requests
+// Below code handles when users "visit" a page.
+// In each of the below cases the user is shown an HTML page of content
+// ---------------------------------------------------------------------------
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 
 // =============================================================================
 // LISTENER
 // The below code effectively "starts" our server
 // =============================================================================
-app.use(express.static('public'));
-app.listen(PORT);
+//app.use(express.static('public'));
+app.listen(PORT, function() {
+    console.log("App listening on http://localhost:" + PORT);
+  });
