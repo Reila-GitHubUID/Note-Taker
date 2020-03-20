@@ -12,31 +12,23 @@ const express = require('express');
 // Tells node that we are creating an "express" server
 const app = express();
 
-// If we are in production (Heroku), process.env.PORT is true, 
-// If we are in development it is false, default to 3000
 // Sets an initial port. We"ll use this later in our listener
+// If we are in production (Heroku), process.env.PORT is true, 
+// If we are in development it is false, default to 2109
 const PORT = process.env.PORT || 2109;
 
 // Sets up the Express app to handle data parsing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// ================================================================================
+// ROUTER
+// The below points our server to a series of "route" files.
+// These routes give our server a "map" of how to respond when users visit or request data from various URLs.
+// ================================================================================
 
-
-// ===============================================================================
-// DEPENDENCIES
-// We need to include the path package to get the correct file path for our html
-// ===============================================================================
-const path = require('path');
-
-
-// ===============================================================================
-// ROUTING
-// ===============================================================================
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
+require("./routes/apiRoutes")(app);
+require("./routes/htmlRoutes")(app);
 
 // =============================================================================
 // LISTENER
