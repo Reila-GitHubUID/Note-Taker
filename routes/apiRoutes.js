@@ -4,8 +4,10 @@
 // that's located in ../db/db.json.
 // ===============================================================================
 
-var tableData = require("../data/tableData");
-var waitListData = require("../data/waitinglistData");
+const fs = require("fs");
+const util = require("util");
+const readFileAsync = util.promisify(fs.readFile);
+const writeFileAsync = util.promisify(fs.writeFile);
 
 
 // ===============================================================================
@@ -33,6 +35,8 @@ module.exports = function(app) {
 
   });
 
+
+
   // API DELETE Request
   // Below code receives a query parameter containing the id of a note to 
   // delete. This means you'll need to find a way to give each note a unique `id` 
@@ -46,3 +50,29 @@ module.exports = function(app) {
 
   });
 };
+
+
+// adding to the `db.json` file
+// ----------------------------
+
+function saveFile() {
+  // fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
+  // const html = fs.readFileSync(`../Assets/${result.githubUID}.html`, 'utf8');
+  try {
+    writeFileAsync(`../db/db.json`, generateHTML.generateHTML(result))
+    .then(function() {
+      console.log(`Successfully updated db.json file`);
+    });
+  } catch (err) {
+    console.log("Failed to save to db.json file.");
+  }
+}
+
+function getFile() {
+  try {
+    const dbFile = fs.readFileAsync(`../db/db.json`, 'utf8');
+  } catch (err) {
+    console.log("Failed to read from db.json file.");
+  }
+
+}
