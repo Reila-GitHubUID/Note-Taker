@@ -3,6 +3,7 @@
 
 # Ignore node_modules folder
 node_modules
+package-lock.json
 
 # Ignore the original README file that outlines the homework assignment
 # README-orig.md
