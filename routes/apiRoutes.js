@@ -1,6 +1,7 @@
 // ===============================================================================
 // LOAD DATA
-// We are linking our routes to a "data" source that's located in ../db/db.json.
+// We are using `fs` module to store and retrieve a user's note, aka "data" source 
+// that's located in ../db/db.json.
 // ===============================================================================
 
 var tableData = require("../data/tableData");
