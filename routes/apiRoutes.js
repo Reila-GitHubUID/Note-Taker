@@ -1,7 +1,6 @@
 // ===============================================================================
 // LOAD DATA
-// We are linking our routes to a series of "data" sources.
-// These data sources hold arrays of information on table-data, waitinglist, etc.
+// We are linking our routes to a "data" source that's located in ../db/db.json.
 // ===============================================================================
 
 var tableData = require("../data/tableData");
@@ -18,6 +17,7 @@ module.exports = function(app) {
   // ---------------------------------------------------------------------------
 
   app.get("/api/tables", function(req, res) {
+      
     res.json(tableData);
   });
 
@@ -27,6 +27,8 @@ module.exports = function(app) {
   // ---------------------------------------------------------------------------
 
   app.post("/api/notes", function(req, res) {
+
+    res.json(tableData);
 
   });
 
@@ -38,6 +40,8 @@ module.exports = function(app) {
   // then rewrite the notes to the `db.json` file.
   // ---------------------------------------------------------------------------
   app.delete("/api/notes/:id", function(req, res) {
+
+    res.json(tableData);
 
   });
 };
