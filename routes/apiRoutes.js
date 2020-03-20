@@ -19,9 +19,19 @@ module.exports = function(app) {
   // Below code reads the `db.json` file and return all saved notes as JSON.
   // ---------------------------------------------------------------------------
 
-  app.get("/api/tables", function(req, res) {
+  app.get("/api/notes", function(req, res) {
+    
+      try {
+        readFileAsync("../db/db.json", "utf8")
+        .then(function(data) {
+          // Parse the JSON string to an object
+          const notes = JSON.parse(data);
       
-    res.json(tableData);
+          res.json(notes);
+        });
+      } catch (err) {
+        console.log("Failed to read from db.json file.");
+      }
   });
 
   // API POST Request
@@ -30,9 +40,23 @@ module.exports = function(app) {
   // ---------------------------------------------------------------------------
 
   app.post("/api/notes", function(req, res) {
+    
+    try {
 
+      appendFileAsync("../db/db.json", joke + "\n")
+      .then(function() {
+        readFileAsync("../db/db.json", "utf8")
+        .then(function(data) {
+          console.log(data);
+          console.log(`Successfully updated db.json file`);
+        });
+      });
+
+    } catch (err) {
+      console.log("Failed to save to db.json file.");
+    }
+    
     res.json(tableData);
-
   });
 
 
@@ -52,9 +76,8 @@ module.exports = function(app) {
 };
 
 
-// adding to the `db.json` file
-// ----------------------------
-
+// Writing to the `db.json` file
+// -----------------------------------
 function saveFile() {
   // fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
   // const html = fs.readFileSync(`../Assets/${result.githubUID}.html`, 'utf8');
@@ -68,9 +91,13 @@ function saveFile() {
   }
 }
 
+// Reading from the `db.json` file
+// -----------------------------------
 function getFile() {
   try {
-    const dbFile = fs.readFileAsync(`../db/db.json`, 'utf8');
+    readFileAsync("animals.json", "utf8")
+    .then(function(data) {
+    });
   } catch (err) {
     console.log("Failed to read from db.json file.");
   }
