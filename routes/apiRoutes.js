@@ -1,7 +1,7 @@
 // ===============================================================================
 // LOAD DATA
 // We are using `fs` module to store and retrieve a user's note, aka "data" source 
-// that's located in ../db/db.json.
+// that's located in ./db/db.json.
 // ===============================================================================
 
 const fs = require("fs");
@@ -22,10 +22,11 @@ module.exports = function(app) {
   app.get("/api/notes", function(req, res) {
     
       try {
-        readFileAsync("../db/db.json", "utf8")
+        readFileAsync("./db/db.json", "utf8")
         .then(function(data) {
           // Parse the JSON string to an object
           const notes = JSON.parse(data);
+          console.log(notes);
       
           res.json(notes);
         });
@@ -43,9 +44,9 @@ module.exports = function(app) {
     
     try {
 
-      appendFileAsync("../db/db.json", joke + "\n")
+      appendFileAsync("./db/db.json", joke + "\n")
       .then(function() {
-        readFileAsync("../db/db.json", "utf8")
+        readFileAsync("./db/db.json", "utf8")
         .then(function(data) {
           console.log(data);
           console.log(`Successfully updated db.json file`);
@@ -71,7 +72,7 @@ module.exports = function(app) {
   app.delete("/api/notes/:id", function(req, res) {
 
     try {
-      readFileAsync("../db/db.json", "utf8")
+      readFileAsync("./db/db.json", "utf8")
       .then(function(data) {
         // Parse the JSON string to an object
         const notes = JSON.parse(data);
