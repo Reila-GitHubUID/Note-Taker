@@ -34,18 +34,11 @@ const path = require('path');
 // ROUTING
 // ===============================================================================
 
-// HTML GET Requests
-// Below code handles when users "visit" a page.
-// In each of the below cases the user is shown an HTML page of content
-// ---------------------------------------------------------------------------
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// API GET Requests
+require("./routes/apiRoutes")(app);
 
-app.get("/notes", function(req, res) {
-    console.log("Here >>>>> dirname = " + __dirname);
-    res.sendFile(path.join(__dirname, "./public/notes.html"));
-});
+// HTML GET Requests
+require("./routes/htmlRoutes")(app);
 
 
 // =============================================================================
