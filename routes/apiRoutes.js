@@ -70,36 +70,16 @@ module.exports = function(app) {
   // ---------------------------------------------------------------------------
   app.delete("/api/notes/:id", function(req, res) {
 
-    res.json(tableData);
-
+    try {
+      readFileAsync("../db/db.json", "utf8")
+      .then(function(data) {
+        // Parse the JSON string to an object
+        const notes = JSON.parse(data);
+    
+        res.json(notes);
+      });
+    } catch (err) {
+      console.log(`Failed to delete from db.json file.`);
+    }
   });
 };
-
-
-// Writing to the `db.json` file
-// -----------------------------------
-function saveFile() {
-  // fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
-  // const html = fs.readFileSync(`../Assets/${result.githubUID}.html`, 'utf8');
-  try {
-    writeFileAsync(`../db/db.json`, generateHTML.generateHTML(result))
-    .then(function() {
-      console.log(`Successfully updated db.json file`);
-    });
-  } catch (err) {
-    console.log("Failed to save to db.json file.");
-  }
-}
-
-// Reading from the `db.json` file
-// -----------------------------------
-function getFile() {
-  try {
-    readFileAsync("animals.json", "utf8")
-    .then(function(data) {
-    });
-  } catch (err) {
-    console.log("Failed to read from db.json file.");
-  }
-
-}
