@@ -44,6 +44,21 @@ module.exports = function(app) {
     
     try {
 
+      // Checking if there are entries to save or not
+      // Note the code here. Our "server" will respond to requests and let users know if they have a table or not.
+      // It will do this by sending out the value "true" have a table
+      // req.body is available since we're using the body parsing middleware
+      if (tableData.length < 5) {
+        tableData.push(req.body);
+        res.json(true);
+      }
+      else {
+        waitListData.push(req.body);
+        res.json(false);
+      }
+      
+
+      // Append the entry in db.json file
       appendFileAsync("./db/db.json", joke + "\n")
       .then(function() {
         readFileAsync("./db/db.json", "utf8")

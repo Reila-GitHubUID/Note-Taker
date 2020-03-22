@@ -96,7 +96,7 @@ var handleNewNoteView = function() {
 // If a note's title or text are empty, hide the save button
 // Or else show it
 var handleRenderSaveBtn = function() {
-  if (!$noteTitle.val().trim() || !$noteText.val().trim()) {
+  if ((!$noteTitle.val().trim()) || (!$noteText.val().trim())) {
     $saveNoteBtn.hide();
   } else {
     $saveNoteBtn.show();
@@ -126,7 +126,7 @@ var renderNoteList = function(notes) {
 };
 
 // Gets notes from the db and renders them to the sidebar
-var getAndRenderNotes = function() {
+var getAndRenderNotes = function() {  
   return getNotes().then(function(data) {
     renderNoteList(data);
   });
@@ -141,3 +141,8 @@ $noteText.on("keyup", handleRenderSaveBtn);
 
 // Gets and renders the initial list of notes
 getAndRenderNotes();
+
+
+console.log("$noteTitle.val().trim() === "+ $noteTitle.val().trim());
+console.log("$noteText.val().trim() === " + $noteText.val().trim());
+console.log("activateNote.id======="+activateNote.id);
