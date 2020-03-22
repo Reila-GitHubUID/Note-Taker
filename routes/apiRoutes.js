@@ -26,9 +26,12 @@ module.exports = function(app) {
         .then(function(data) {
           // Parse the JSON string to an object
           const notes = JSON.parse(data);
-          console.log(notes);
-      
           res.json(notes);
+
+          console.log("^^^^^^^^^");
+          console.log(notes);
+          console.log("^^^^^^^^^");
+
         });
       } catch (err) {
         console.log("Failed to read from db.json file.");
