@@ -7,7 +7,7 @@
 const fs = require("fs");
 const util = require("util");
 const readFileAsync = util.promisify(fs.readFile);
-const appendFileAsync = util.promisify(fs.writeFile);
+const writeFileAsync = util.promisify(fs.writeFile);
 
 
 // ===============================================================================
@@ -51,18 +51,27 @@ module.exports = function(app) {
       // Note the code here. Our "server" will respond to requests and let users know if they have a table or not.
       // It will do this by sending out the value "true" have a table
       // req.body is available since we're using the body parsing middleware
-      
+      console.log("sinde app.post");
       console.log("****req.body**************");
       console.log(req.body);
 
-      // Append the entry in db.json file
-      appendFileAsync("./db/db.json", req.body + "\n")
-      .then(function(data) {    
+      readFileAsync("./db/db.json", "utf8")
+      .then(function(data) {
+        // Parse the JSON string to an object
+        const notes = JSON.parse(data);
+        notes.push(req.body);
+
+        console.log("*******************");
+        console.log(notes);
+        writeFileAsync("./db/db.json", JSON.stringify(notes));
+        console.log("*******************");
+
         // Return the new note to the client
-        res.json(data);
+        res.json(JSON.stringify(notes));
         console.log(`Successfully updated db.json file`);
       });
 
+  
     } catch (err) {
       console.log("Failed to save to db.json file.");
     }
