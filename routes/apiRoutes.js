@@ -48,31 +48,22 @@ module.exports = function(app) {
       // Note the code here. Our "server" will respond to requests and let users know if they have a table or not.
       // It will do this by sending out the value "true" have a table
       // req.body is available since we're using the body parsing middleware
-      if (tableData.length < 5) {
-        tableData.push(req.body);
-        res.json(true);
-      }
-      else {
-        waitListData.push(req.body);
-        res.json(false);
-      }
       
+      console.log("****req.body**************");
+      console.log(req.body);
 
       // Append the entry in db.json file
-      appendFileAsync("./db/db.json", joke + "\n")
-      .then(function() {
-        readFileAsync("./db/db.json", "utf8")
-        .then(function(data) {
-          console.log(data);
-          console.log(`Successfully updated db.json file`);
-        });
+      appendFileAsync("./db/db.json", req.body + "\n")
+      .then(function(data) {    
+        // Return the new note to the client
+        res.json(data);
+        console.log(`Successfully updated db.json file`);
       });
 
     } catch (err) {
       console.log("Failed to save to db.json file.");
     }
     
-    res.json(tableData);
   });
 
 
