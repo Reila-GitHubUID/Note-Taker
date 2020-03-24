@@ -3,6 +3,7 @@ let $noteText = $(".note-textarea");
 let $saveNoteBtn = $(".save-note");
 let $newNoteBtn = $(".new-note");
 let $noteList = $(".list-container .list-group");
+debugger;
 
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
