@@ -88,7 +88,8 @@ module.exports = function(app) {
   // then rewrite the notes to the `db.json` file.
   // ---------------------------------------------------------------------------
   app.delete("/api/notes/:id", function(req, res) {
-
+    console.log("BOOOOO!!!");
+    console.log("id: is "+id);
     try {
       readFileAsync("./db/db.json", "utf8")
       .then(function(data) {

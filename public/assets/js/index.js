@@ -129,7 +129,6 @@ let renderNoteList = function(notes) {
 // Gets notes from the db and renders them to the sidebar
 let getAndRenderNotes = function() {  
   return getNotes().then(function(data) {
-    console.log("I'm in public/assets/js/index.js");
     renderNoteList(data);
   });
 };
