@@ -15,7 +15,7 @@ const app = express();
 // Sets an initial port. We"ll use this later in our listener
 // If we are in production (Heroku), process.env.PORT is true, 
 // If we are in development it is false, default to 2109
-const PORT = process.env.PORT || 2021;
+const PORT = process.env.PORT || 2020;
 
 // Sets up the Express app to handle data parsing
 app.use(express.json());
