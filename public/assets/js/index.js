@@ -3,7 +3,6 @@ let $noteText = $(".note-textarea");
 let $saveNoteBtn = $(".save-note");
 let $newNoteBtn = $(".new-note");
 let $noteList = $(".list-container .list-group");
-debugger;
 
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
@@ -27,6 +26,7 @@ let saveNote = function(note) {
 
 // A function for deleting a note from the db
 let deleteNote = function(id) {
+  console.log("id===="+ id);
   return $.ajax({
     url: "api/notes/" + id,
     method: "DELETE"

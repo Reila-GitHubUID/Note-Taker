@@ -89,7 +89,8 @@ module.exports = function(app) {
   // ---------------------------------------------------------------------------
   app.delete("/api/notes/:id", function(req, res) {
     console.log("BOOOOO!!!");
-    console.log("id: is "+id);
+    console.log("id: is "+req.params.id);
+
     try {
       readFileAsync("./db/db.json", "utf8")
       .then(function(data) {
