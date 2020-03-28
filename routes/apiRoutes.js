@@ -29,7 +29,7 @@ module.exports = function(app) {
           const notes = JSON.parse(data);
 
           if (notes.length > 0)
-            count = notes.length - 1;
+            count = notes.length;
 
           res.json(notes);
         });
@@ -87,19 +87,20 @@ module.exports = function(app) {
       .then(function(data) {
         // Parse the JSON string to an object
         const notes = JSON.parse(data);
+        const array = [];
 
         for (let i = 0; i < notes.length; i++){
           if (parseInt(req.params.id) === notes[i].id) {
-            console.log("notes["+i+"].id is " + notes[i].id);
             notes.splice(i, 1);
+          }
+          else {
+            array.push(notes[i]);
           }
         }
 
-        console.log("after" + JSON.stringify(notes));
+        writeFileAsync("./db/db.json", JSON.stringify(array));
 
-        writeFileAsync("./db/db.json", JSON.stringify(notes));
-
-        res.json(JSON.stringify(notes));
+        res.json(JSON.stringify(array));
       });
     } catch (err) {
       console.log(`Failed to delete from db.json file.`);
