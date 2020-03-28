@@ -9,6 +9,7 @@ const util = require("util");
 const readFileAsync = util.promisify(fs.readFile);
 const writeFileAsync = util.promisify(fs.writeFile);
 
+let count = 0;
 
 // ===============================================================================
 // ROUTING
@@ -26,12 +27,11 @@ module.exports = function(app) {
         .then(function(data) {
           // Parse the JSON string to an object
           const notes = JSON.parse(data);
+
+          if (notes.length > 0)
+            count = notes.length - 1;
+
           res.json(notes);
-
-          console.log("^^^^^^^^^");
-          console.log(notes);
-          console.log("^^^^^^^^^");
-
         });
       } catch (err) {
         console.log("Failed to read from db.json file.");
@@ -51,24 +51,18 @@ module.exports = function(app) {
       // Note the code here. Our "server" will respond to requests and let users know if they have a table or not.
       // It will do this by sending out the value "true" have a table
       // req.body is available since we're using the body parsing middleware
-      console.log("sinde app.post");
-      console.log("****req.body**************");
-      console.log(req.body);
+      let incoming = {...req.body, id: count++};
 
       readFileAsync("./db/db.json", "utf8")
       .then(function(data) {
         // Parse the JSON string to an object
         const notes = JSON.parse(data);
-        notes.push(req.body);
+        notes.push(incoming);
 
-        console.log("*******************");
-        console.log(notes);
         writeFileAsync("./db/db.json", JSON.stringify(notes));
-        console.log("*******************");
 
         // Return the new note to the client
         res.json(JSON.stringify(notes));
-        console.log(`Successfully updated db.json file`);
       });
 
   
@@ -88,16 +82,24 @@ module.exports = function(app) {
   // then rewrite the notes to the `db.json` file.
   // ---------------------------------------------------------------------------
   app.delete("/api/notes/:id", function(req, res) {
-    console.log("BOOOOO!!!");
-    console.log("id: is "+req.params.id);
-
     try {
       readFileAsync("./db/db.json", "utf8")
       .then(function(data) {
         // Parse the JSON string to an object
         const notes = JSON.parse(data);
-    
-        res.json(notes);
+
+        for (let i = 0; i < notes.length; i++){
+          if (parseInt(req.params.id) === notes[i].id) {
+            console.log("notes["+i+"].id is " + notes[i].id);
+            notes.splice(i, 1);
+          }
+        }
+
+        console.log("after" + JSON.stringify(notes));
+
+        writeFileAsync("./db/db.json", JSON.stringify(notes));
+
+        res.json(JSON.stringify(notes));
       });
     } catch (err) {
       console.log(`Failed to delete from db.json file.`);
